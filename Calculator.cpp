@@ -6,37 +6,36 @@ void Calculator::setOperation(QString operation)
 {
     if (!lineEdit->text().isEmpty())
     {
-        previousNum = lineEdit->text().toDouble();
-        lineEdit->clear();
-    }
-
-    if(currentOperation == "+")
-    {
-        s += previousNum;
-    }
-    else if (currentOperation == "-")
-    {
-        s -= previousNum;
-    }
-    else if (currentOperation == "*")
-    {
-        s *= previousNum;
-    }
-    else if (currentOperation == "/")
-    {
-        if (previousNum != 0.0)
+        double currentNum = lineEdit->text().toDouble();
+        if (currentOperation == "+")
         {
-            s /= previousNum;
+            s += currentNum;
+        }
+        else if (currentOperation == "-")
+        {
+            s -= currentNum;
+        }
+        else if (currentOperation == "*")
+        {
+            s *= currentNum;
+        }
+        else if (currentOperation == "/")
+        {
+            if (currentNum != 0.0)
+            {
+                s /= currentNum;
+            }
+            else
+            {
+                lineEdit->setText("Ошибка!");
+                return;
+            }
         }
         else
         {
-            lineEdit->setText("Error!");
-            return;
+            s = currentNum;
         }
-    }
-    else
-    {
-        s = previousNum;
+        lineEdit->clear();
     }
     currentOperation = operation;
 }
@@ -46,31 +45,31 @@ void Calculator::equals()
     double currentNum = lineEdit->text().toDouble();
     if (currentOperation == "+")
     {
-        result = s + currentNum;
+        s += currentNum;
     }
     else if (currentOperation == "-")
     {
-        result = s - currentNum;
+        s -= currentNum;
     }
     else if (currentOperation == "*")
     {
-        result = s * currentNum;
+        s *= currentNum;
     }
     else if (currentOperation == "/")
     {
         if (currentNum != 0.0)
         {
-            result = s / currentNum;
+            s /= currentNum;
         }
         else
         {
-            lineEdit->setText("Error!");
+            lineEdit->setText("Ошибка!");
             return;
         }
     }
-    lineEdit->setText(QString::number(result));
-    result = 0.0;
+    lineEdit->setText(QString::number(s));
     s = 0.0;
+    currentOperation = "";
 }
 
 void Calculator::appendNumber()
@@ -101,6 +100,7 @@ void Calculator::appendNumber()
         }
     }
 }
+
 
 void Calculator::funZero()
 {
